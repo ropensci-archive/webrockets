@@ -12,3 +12,4 @@ TODO:
 * Reactive shiny front end
 * Vignette
 * Fix: polling closed connection twice creates infinite loop.
+* Fix: 404 terminates RStudio ungraciously.
