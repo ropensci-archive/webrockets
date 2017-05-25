@@ -30,7 +30,9 @@ SEXP chrome_connect(std::string url) {
   x->response = std::string("Hi");
   x->ready = false;
 
-  assert(x->ws);
+  if (!x->ws){
+      throw std::invalid_argument("Invalid URL");
+  }
 
   while(x->ws->getReadyState() != easywsclient::WebSocket::OPEN) {
     Rcpp::checkUserInterrupt();
