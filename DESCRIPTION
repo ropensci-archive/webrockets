@@ -12,3 +12,4 @@ LinkingTo: Rcpp
 Imports:
     Rcpp
 RoxygenNote: 5.0.1
+SystemRequirements: C++11
