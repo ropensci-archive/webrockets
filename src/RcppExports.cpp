@@ -28,3 +28,15 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// ws_poll
+std::string ws_poll(SEXP ws_ptr, int timeout);
+RcppExport SEXP webrockets_ws_poll(SEXP ws_ptrSEXP, SEXP timeoutSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type ws_ptr(ws_ptrSEXP);
+    Rcpp::traits::input_parameter< int >::type timeout(timeoutSEXP);
+    rcpp_result_gen = Rcpp::wrap(ws_poll(ws_ptr, timeout));
+    return rcpp_result_gen;
+END_RCPP
+}

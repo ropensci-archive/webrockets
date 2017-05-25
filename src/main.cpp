@@ -27,10 +27,14 @@ SEXP chrome_connect(std::string url) {
 
   chromeWsPtr x = new(chromeWs);
   x->ws = easywsclient::WebSocket::from_url(url);
-  x->response = "Hi";
+  x->response = std::string("Hi");
   x->ready = false;
 
   assert(x->ws);
+
+  while(x->ws->getReadyState() != easywsclient::WebSocket::OPEN) {
+    Rcpp::checkUserInterrupt();
+  }
 
   return(XPtrWs(x));
 
@@ -42,8 +46,46 @@ SEXP chrome_connect(std::string url) {
 // [[Rcpp::export]]
 std::string instrument(SEXP ws_ptr, std::string cmd) {
 
-  std::cout << ((chromeWsPtr)ws_ptr)->response << " " << cmd << std::endl;
+  //int i=0;
 
-  return("");
+  chromeWsPtr wsp = ((chromeWsPtr)R_ExternalPtrAddr(ws_ptr));
+
+  ready = false;
+
+  wsp->ws->send(cmd);
+
+  // while (!ready) {
+  //   i++;
+  //   if((i % 100) == 0) Rcpp::checkUserInterrupt();
+    // std::cout << "." ;
+  wsp->ws->poll(-1);
+  wsp->ws->dispatch(handle_message);
+  // }
+
+  // std::cout<<std::endl;
+
+  return(msg);
+
+}
+
+//' Consume event
+//'
+//' @export
+// [[Rcpp::export]]
+std::string ws_poll(SEXP ws_ptr, int timeout=5) {
+
+  chromeWsPtr wsp = ((chromeWsPtr)R_ExternalPtrAddr(ws_ptr));
+
+  ready = false;
+
+  while (!ready) {
+    std::cout << "." ;
+    wsp->ws->poll(5);
+    wsp->ws->dispatch(handle_message);
+  }
+
+  std::cout<<std::endl;
+
+  return(msg);
 
 }

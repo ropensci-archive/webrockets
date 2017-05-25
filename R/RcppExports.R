@@ -16,3 +16,10 @@ instrument <- function(ws_ptr, cmd) {
     .Call('webrockets_instrument', PACKAGE = 'webrockets', ws_ptr, cmd)
 }
 
+#' Consume event
+#'
+#' @export
+ws_poll <- function(ws_ptr, timeout = 5L) {
+    .Call('webrockets_ws_poll', PACKAGE = 'webrockets', ws_ptr, timeout)
+}
+
