@@ -23,3 +23,11 @@ ws_poll <- function(ws_ptr, timeout = 5L) {
     .Call('webrockets_ws_poll', PACKAGE = 'webrockets', ws_ptr, timeout)
 }
 
+#' Close a socket connection
+#'
+#' @param Chrome ws ptr object.
+#' @export
+close <- function(ws_ptr) {
+    invisible(.Call('webrockets_close', PACKAGE = 'webrockets', ws_ptr))
+}
+

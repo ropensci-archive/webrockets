@@ -89,3 +89,16 @@ std::string ws_poll(SEXP ws_ptr, int timeout=5) {
   return(msg);
 
 }
+
+//' Close a socket connection
+//'
+//' @param Chrome ws ptr object.
+//' @export
+// [[Rcpp::export]]
+void close(SEXP ws_ptr){
+    chromeWsPtr wsp = ((chromeWsPtr)R_ExternalPtrAddr(ws_ptr));
+    wsp->ws->close();
+    //DO WE NEED TO DELETE
+    //delete wsp->ws;
+    //delete wsp;
+}

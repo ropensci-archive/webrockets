@@ -40,3 +40,26 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// close
+void close(SEXP ws_ptr);
+RcppExport SEXP webrockets_close(SEXP ws_ptrSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type ws_ptr(ws_ptrSEXP);
+    close(ws_ptr);
+    return R_NilValue;
+END_RCPP
+}
+
+static const R_CallMethodDef CallEntries[] = {
+    {"webrockets_chrome_connect", (DL_FUNC) &webrockets_chrome_connect, 1},
+    {"webrockets_instrument", (DL_FUNC) &webrockets_instrument, 2},
+    {"webrockets_ws_poll", (DL_FUNC) &webrockets_ws_poll, 2},
+    {"webrockets_close", (DL_FUNC) &webrockets_close, 1},
+    {NULL, NULL, 0}
+};
+
+RcppExport void R_init_webrockets(DllInfo *dll) {
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
+}
