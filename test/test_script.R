@@ -1,13 +1,18 @@
 #bokeh serve .python_test_server/circle_server.py --session-ids unsigned
 
 #create connection
-cc <- webrockets::chrome_connect("ws://localhost:5006/circle_server/ws?bokeh-session-id=test&bokeh-protocol-version=1.0")
+cc <- webrockets::chrome_connect("ws://localhost:5006/")
 
 #poll the connection
 noise <- webrockets::ws_poll(cc)
+
+webrockets::ws_test_read_one(cc)
 
 #close the connection
 webrockets::close(cc)
 
 #check for more data
 more_noise <- webrockets::ws_poll(cc)
+
+noise <- webrockets::ws_poll(cc, -1)
+noise <- webrockets::ws_poll(cc, 0)

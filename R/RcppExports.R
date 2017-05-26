@@ -31,3 +31,18 @@ close <- function(ws_ptr) {
     invisible(.Call('webrockets_close', PACKAGE = 'webrockets', ws_ptr))
 }
 
+#' Consume 1 event
+#'
+#' @export
+ws_read_one <- function(ws_ptr, timeout = 5L) {
+    .Call('webrockets_ws_read_one', PACKAGE = 'webrockets', ws_ptr, timeout)
+}
+
+#' Consume 1 event and return a distinctive message if no message was recieved
+#' Testing use only. To be removed.
+#'
+#' @export
+ws_test_read_one <- function(ws_ptr, timeout = 5L) {
+    .Call('webrockets_ws_test_read_one', PACKAGE = 'webrockets', ws_ptr, timeout)
+}
+

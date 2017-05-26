@@ -50,12 +50,38 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
+// ws_read_one
+std::string ws_read_one(SEXP ws_ptr, int timeout);
+RcppExport SEXP webrockets_ws_read_one(SEXP ws_ptrSEXP, SEXP timeoutSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type ws_ptr(ws_ptrSEXP);
+    Rcpp::traits::input_parameter< int >::type timeout(timeoutSEXP);
+    rcpp_result_gen = Rcpp::wrap(ws_read_one(ws_ptr, timeout));
+    return rcpp_result_gen;
+END_RCPP
+}
+// ws_test_read_one
+std::string ws_test_read_one(SEXP ws_ptr, int timeout);
+RcppExport SEXP webrockets_ws_test_read_one(SEXP ws_ptrSEXP, SEXP timeoutSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type ws_ptr(ws_ptrSEXP);
+    Rcpp::traits::input_parameter< int >::type timeout(timeoutSEXP);
+    rcpp_result_gen = Rcpp::wrap(ws_test_read_one(ws_ptr, timeout));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"webrockets_chrome_connect", (DL_FUNC) &webrockets_chrome_connect, 1},
     {"webrockets_instrument", (DL_FUNC) &webrockets_instrument, 2},
     {"webrockets_ws_poll", (DL_FUNC) &webrockets_ws_poll, 2},
     {"webrockets_close", (DL_FUNC) &webrockets_close, 1},
+    {"webrockets_ws_read_one", (DL_FUNC) &webrockets_ws_read_one, 2},
+    {"webrockets_ws_test_read_one", (DL_FUNC) &webrockets_ws_test_read_one, 2},
     {NULL, NULL, 0}
 };
 
