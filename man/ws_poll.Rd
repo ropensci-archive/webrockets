@@ -6,10 +6,21 @@
 \usage{
 ws_poll(ws_ptr, timeout = 5L)
 }
+\arguments{
+\item{ws_ptr}{pointer from \code{\link{ws_connect}}}
+
+\item{timeout}{time before timing out each time server is queried}
+}
 \value{
-list of strings with each message
+string with message from server
 }
 \description{
 Consume one message
 }
+\examples{
+\dontrun{
+    con <- ws_connect("ws://localhost:5006/") # Need to have websocket server
+    ws_poll(con, 5) # returns one message
+}
 
+}

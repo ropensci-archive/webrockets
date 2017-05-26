@@ -40,16 +40,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// ws_close
-void ws_close(SEXP ws_ptr);
-RcppExport SEXP webrockets_ws_close(SEXP ws_ptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type ws_ptr(ws_ptrSEXP);
-    ws_close(ws_ptr);
-    return R_NilValue;
-END_RCPP
-}
 // ws_read_one
 std::string ws_read_one(SEXP ws_ptr, int timeout);
 RcppExport SEXP webrockets_ws_read_one(SEXP ws_ptrSEXP, SEXP timeoutSEXP) {
@@ -61,18 +51,4 @@ BEGIN_RCPP
     rcpp_result_gen = Rcpp::wrap(ws_read_one(ws_ptr, timeout));
     return rcpp_result_gen;
 END_RCPP
-}
-
-static const R_CallMethodDef CallEntries[] = {
-    {"webrockets_ws_connect", (DL_FUNC) &webrockets_ws_connect, 1},
-    {"webrockets_ws_poll", (DL_FUNC) &webrockets_ws_poll, 2},
-    {"webrockets_ws_poll_list", (DL_FUNC) &webrockets_ws_poll_list, 2},
-    {"webrockets_ws_close", (DL_FUNC) &webrockets_ws_close, 1},
-    {"webrockets_ws_read_one", (DL_FUNC) &webrockets_ws_read_one, 2},
-    {NULL, NULL, 0}
-};
-
-RcppExport void R_init_webrockets(DllInfo *dll) {
-    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
-    R_useDynamicSymbols(dll, FALSE);
 }

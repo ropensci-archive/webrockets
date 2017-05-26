@@ -7,7 +7,7 @@
 ws_connect(url)
 }
 \arguments{
-\item{url}{ws URL}
+\item{url}{URL for websocket server}
 }
 \description{
 Connect to websocket
