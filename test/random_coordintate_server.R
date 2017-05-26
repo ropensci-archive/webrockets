@@ -11,7 +11,7 @@ app <- list(
             x = rnorm(1, 10, 2.5)
             y = rnorm(1, 10, 2.5)
             ws$send(jsonlite::toJSON(list("x" = x, "y" = y)))
-            Sys.sleep(5)
+            Sys.sleep(1)
             id = id+1
         }
     }

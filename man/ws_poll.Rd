@@ -2,11 +2,13 @@
 % Please edit documentation in R/RcppExports.R
 \name{ws_poll}
 \alias{ws_poll}
-\title{Consume event}
+\title{Consume one message}
 \usage{
 ws_poll(ws_ptr, timeout = 5L)
 }
-\description{
-Consume event
+\value{
+list of strings with each message
 }
-
+\description{
+Consume one message
+}

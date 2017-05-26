@@ -13,5 +13,5 @@ app <- list(
             }
     }
 )
-runServer("0.0.0.0", 5006, app, 250)
 
+runServer("0.0.0.0", 5006, app, 250)

@@ -2,11 +2,22 @@
 % Please edit documentation in R/RcppExports.R
 \name{ws_read_one}
 \alias{ws_read_one}
-\title{Consume 1 event}
+\title{ws_read_one}
 \usage{
 ws_read_one(ws_ptr, timeout = 5L)
 }
-\description{
-Consume 1 event
+\arguments{
+\item{timeout}{time in milliseconds before timing out, see details}
 }
-
+\value{
+one message, if one occurs within timeout. otherwise, empty string
+}
+\description{
+Consume one message within timeout
+}
+\details{
+If timout is set to a negative number, the process should
+block until a message arrives. If set to 0, no blocking is performed --
+a message is returned if it is there.  If set to a positive value,
+the function will wait until there is a message or a timeout
+}
