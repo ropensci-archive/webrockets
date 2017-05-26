@@ -5,26 +5,14 @@
 
 using namespace Rcpp;
 
-// chrome_connect
-SEXP chrome_connect(std::string url);
-RcppExport SEXP webrockets_chrome_connect(SEXP urlSEXP) {
+// ws_connect
+SEXP ws_connect(std::string url);
+RcppExport SEXP webrockets_ws_connect(SEXP urlSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< std::string >::type url(urlSEXP);
-    rcpp_result_gen = Rcpp::wrap(chrome_connect(url));
-    return rcpp_result_gen;
-END_RCPP
-}
-// instrument
-std::string instrument(SEXP ws_ptr, std::string cmd);
-RcppExport SEXP webrockets_instrument(SEXP ws_ptrSEXP, SEXP cmdSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type ws_ptr(ws_ptrSEXP);
-    Rcpp::traits::input_parameter< std::string >::type cmd(cmdSEXP);
-    rcpp_result_gen = Rcpp::wrap(instrument(ws_ptr, cmd));
+    rcpp_result_gen = Rcpp::wrap(ws_connect(url));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -40,13 +28,25 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// close
-void close(SEXP ws_ptr);
-RcppExport SEXP webrockets_close(SEXP ws_ptrSEXP) {
+// ws_poll_list
+std::vector<std::string> ws_poll_list(SEXP ws_ptr, unsigned int eventlimit);
+RcppExport SEXP webrockets_ws_poll_list(SEXP ws_ptrSEXP, SEXP eventlimitSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type ws_ptr(ws_ptrSEXP);
+    Rcpp::traits::input_parameter< unsigned int >::type eventlimit(eventlimitSEXP);
+    rcpp_result_gen = Rcpp::wrap(ws_poll_list(ws_ptr, eventlimit));
+    return rcpp_result_gen;
+END_RCPP
+}
+// ws_close
+void ws_close(SEXP ws_ptr);
+RcppExport SEXP webrockets_ws_close(SEXP ws_ptrSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type ws_ptr(ws_ptrSEXP);
-    close(ws_ptr);
+    ws_close(ws_ptr);
     return R_NilValue;
 END_RCPP
 }
@@ -61,31 +61,4 @@ BEGIN_RCPP
     rcpp_result_gen = Rcpp::wrap(ws_read_one(ws_ptr, timeout));
     return rcpp_result_gen;
 END_RCPP
-}
-// ws_test_read_one
-std::string ws_test_read_one(SEXP ws_ptr, int timeout);
-RcppExport SEXP webrockets_ws_test_read_one(SEXP ws_ptrSEXP, SEXP timeoutSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type ws_ptr(ws_ptrSEXP);
-    Rcpp::traits::input_parameter< int >::type timeout(timeoutSEXP);
-    rcpp_result_gen = Rcpp::wrap(ws_test_read_one(ws_ptr, timeout));
-    return rcpp_result_gen;
-END_RCPP
-}
-
-static const R_CallMethodDef CallEntries[] = {
-    {"webrockets_chrome_connect", (DL_FUNC) &webrockets_chrome_connect, 1},
-    {"webrockets_instrument", (DL_FUNC) &webrockets_instrument, 2},
-    {"webrockets_ws_poll", (DL_FUNC) &webrockets_ws_poll, 2},
-    {"webrockets_close", (DL_FUNC) &webrockets_close, 1},
-    {"webrockets_ws_read_one", (DL_FUNC) &webrockets_ws_read_one, 2},
-    {"webrockets_ws_test_read_one", (DL_FUNC) &webrockets_ws_test_read_one, 2},
-    {NULL, NULL, 0}
-};
-
-RcppExport void R_init_webrockets(DllInfo *dll) {
-    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
-    R_useDynamicSymbols(dll, FALSE);
 }

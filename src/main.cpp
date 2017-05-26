@@ -18,12 +18,12 @@ void handle_message(const std::string & message) {
   //cv.notify_one();
 }
 
-//' Connect to Chrome Remote
+//' Connect to websocket
 //'
 //' @param url ws URL
 //' @export
 // [[Rcpp::export]]
-SEXP chrome_connect(std::string url) {
+SEXP ws_connect(std::string url) {
 
   chromeWsPtr x = new(chromeWs);
   x->ws = easywsclient::WebSocket::from_url(url);
@@ -42,36 +42,19 @@ SEXP chrome_connect(std::string url) {
 
 };
 
-//' Instrument Chrome
+
+//' Consume one message
 //'
+//' @param ws_ptr pointer from \{code}\link{ws_connect}
+//' @param timeout
 //' @export
-// [[Rcpp::export]]
-std::string instrument(SEXP ws_ptr, std::string cmd) {
-
-  //int i=0;
-
-  chromeWsPtr wsp = ((chromeWsPtr)R_ExternalPtrAddr(ws_ptr));
-
-  ready = false;
-
-  wsp->ws->send(cmd);
-
-  // while (!ready) {
-  //   i++;
-  //   if((i % 100) == 0) Rcpp::checkUserInterrupt();
-    // std::cout << "." ;
-  wsp->ws->poll(-1);
-  wsp->ws->dispatch(handle_message);
-  // }
-
-  // std::cout<<std::endl;
-
-  return(msg);
-
-}
-
-//' Consume event
+//' @return list of strings with each message
+//' @examples
 //'
+//' \dontrun{
+//'     con <- ws_connect(ws://localhost:5006/") # Need to have websocket server
+//'     ws_poll(con, 5) # returns one message
+//' }
 //' @export
 // [[Rcpp::export]]
 std::string ws_poll(SEXP ws_ptr, int timeout=5) {
@@ -95,14 +78,25 @@ std::string ws_poll(SEXP ws_ptr, int timeout=5) {
 
 }
 
+//' Consume n events
+//' @param ws_ptr pointer from \{code}\link{ws_connect}
+//' @param eventlimit limit of events
+//' @return list of strings with each message
+//' @examples
+//'
+//' \dontrun{
+//'     con <- ws_connect(ws://localhost:5006/") # Need to have websocket server
+//'     ws_poll_list(con, 3) # returns 3 messages
+//' }
+//' @export
 // [[Rcpp::export]]
 std::vector<std::string> ws_poll_list(SEXP ws_ptr, unsigned int eventlimit){
     chromeWsPtr wsp = ((chromeWsPtr)R_ExternalPtrAddr(ws_ptr));
 
-    int nevents = 0;
+    int nevents = 1;
     std::vector<std::string> out;
-    while (nevents < eventlimit) {
-        Rcpp::Rcout << "nevents = " << nevents << std::endl;
+    while (nevents <= eventlimit) {
+        Rcpp::Rcout << "Events read = " << nevents << std::endl;
         wsp->ws->poll(-1);
         wsp->ws->dispatch(handle_message);
         nevents++;
@@ -115,12 +109,14 @@ std::vector<std::string> ws_poll_list(SEXP ws_ptr, unsigned int eventlimit){
 }
 
 
+//' ws_close
+//'
 //' Close a socket connection
 //'
 //' @param Chrome ws ptr object.
 //' @export
 // [[Rcpp::export]]
-void close(SEXP ws_ptr){
+void ws_close(SEXP ws_ptr){
     chromeWsPtr wsp = ((chromeWsPtr)R_ExternalPtrAddr(ws_ptr));
     wsp->ws->close();
     //DO WE NEED TO DELETE
@@ -128,14 +124,28 @@ void close(SEXP ws_ptr){
     //delete wsp;
 }
 
-//' Consume 1 event
+//' ws_read_one
 //'
+//' Consume one message within timeout
+//'
+//' @param ws_ptr pointer from \{code}\link{ws_connect}
+//' @param timeout time in milliseconds before timing out, see details
+//' @details If timout is set to a negative number, the process should
+//' block until a message arrives. If set to 0, no blocking is performed --
+//' a message is returned if it is there.  If set to a positive value,
+//' the function will wait until there is a message or a timeout
+//' @return one message, if one occurs within timeout. otherwise, empty string
+//' @examples
+//'
+//' \dontrun{
+//'     con <- ws_connect(ws://localhost:5006/") # Need to have websocket server
+//'     ws_read_one(con, 5)
+//' }
 //' @export
 // [[Rcpp::export]]
 std::string ws_read_one(SEXP ws_ptr, int timeout=5) {
     msg = "";
     chromeWsPtr wsp = ((chromeWsPtr)R_ExternalPtrAddr(ws_ptr));
-    std::cout << "." ;
     wsp->ws->poll(timeout);
     wsp->ws->dispatch(handle_message);
     std::cout<<std::endl;
@@ -144,20 +154,3 @@ std::string ws_read_one(SEXP ws_ptr, int timeout=5) {
 
 }
 
-//' Consume 1 event and return a distinctive message if no message was recieved
-//' Testing use only. To be removed.
-//'
-//' @export
-// [[Rcpp::export]]
-std::string ws_test_read_one(SEXP ws_ptr, int timeout=5) {
-    msg = "";
-    chromeWsPtr wsp = ((chromeWsPtr)R_ExternalPtrAddr(ws_ptr));
-    std::cout << "." ;
-    wsp->ws->poll(timeout);
-    wsp->ws->dispatch(handle_message);
-    std::cout<<std::endl;
-    if(msg == ""){
-        msg = "NO_MESSAGE_FOUND";
-        }
-    return(msg);
-}

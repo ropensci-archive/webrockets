@@ -71,6 +71,8 @@
 
 #include <vector>
 #include <string>
+#include <Rcpp.h>
+
 
 #include "easywsclient.hpp"
 
@@ -118,7 +120,7 @@ class _DummyWebSocket : public easywsclient::WebSocket
     void sendBinary(const std::string& message) { }
     void sendBinary(const std::vector<uint8_t>& message) { }
     void sendPing() { }
-    void close() { } 
+    void close() { }
     readyStateValues getReadyState() const { return CLOSED; }
     void _dispatch(Callback_Imp & callable) { }
     void _dispatchBinary(BytesCallback_Imp& callable) { }
@@ -188,6 +190,7 @@ class _RealWebSocket : public easywsclient::WebSocket
             }
             return;
         }
+        int selval;
         if (timeout != 0) {
             fd_set rfds;
             fd_set wfds;
@@ -196,7 +199,7 @@ class _RealWebSocket : public easywsclient::WebSocket
             FD_ZERO(&wfds);
             FD_SET(sockfd, &rfds);
             if (txbuf.size()) { FD_SET(sockfd, &wfds); }
-            select(sockfd + 1, &rfds, &wfds, 0, timeout > 0 ? &tv : 0);
+            selval = select(sockfd + 1, &rfds, &wfds, 0, timeout > 0 ? &tv : NULL);
         }
         while (true) {
             // FD_ISSET(0, &rfds) will be true
@@ -222,7 +225,7 @@ class _RealWebSocket : public easywsclient::WebSocket
         }
         while (txbuf.size()) {
             int ret = ::send(sockfd, (char*)&txbuf[0], txbuf.size(), 0);
-            if (false) { } // ??
+            if (false) {  } // ??
             else if (ret < 0 && (socketerrno == SOCKET_EWOULDBLOCK || socketerrno == SOCKET_EAGAIN_EINPROGRESS)) {
                 break;
             }
@@ -314,7 +317,7 @@ class _RealWebSocket : public easywsclient::WebSocket
             // We got a whole message, now do something with it:
             if (false) { }
             else if (
-                   ws.opcode == wsheader_type::TEXT_FRAME 
+                   ws.opcode == wsheader_type::TEXT_FRAME
                 || ws.opcode == wsheader_type::BINARY_FRAME
                 || ws.opcode == wsheader_type::CONTINUATION
             ) {
