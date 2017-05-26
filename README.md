@@ -8,7 +8,6 @@ We are starting from @hrbmstr's implementation in https://github.com/ropenscilab
 
 TODO:
 * Parse JSON returned
-* close method
 * Reactive shiny front end
 * Vignette
-* Fix: polling closed connection twice creates infinite loop.
+

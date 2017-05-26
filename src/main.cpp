@@ -127,3 +127,37 @@ void close(SEXP ws_ptr){
     //delete wsp->ws;
     //delete wsp;
 }
+
+//' Consume 1 event
+//'
+//' @export
+// [[Rcpp::export]]
+std::string ws_read_one(SEXP ws_ptr, int timeout=5) {
+    msg = "";
+    chromeWsPtr wsp = ((chromeWsPtr)R_ExternalPtrAddr(ws_ptr));
+    std::cout << "." ;
+    wsp->ws->poll(timeout);
+    wsp->ws->dispatch(handle_message);
+    std::cout<<std::endl;
+
+    return(msg);
+
+}
+
+//' Consume 1 event and return a distinctive message if no message was recieved
+//' Testing use only. To be removed.
+//'
+//' @export
+// [[Rcpp::export]]
+std::string ws_test_read_one(SEXP ws_ptr, int timeout=5) {
+    msg = "";
+    chromeWsPtr wsp = ((chromeWsPtr)R_ExternalPtrAddr(ws_ptr));
+    std::cout << "." ;
+    wsp->ws->poll(timeout);
+    wsp->ws->dispatch(handle_message);
+    std::cout<<std::endl;
+    if(msg == ""){
+        msg = "NO_MESSAGE_FOUND";
+        }
+    return(msg);
+}
