@@ -1,15 +1,26 @@
 Package: webrockets
-Title: What the Package Does (one line, title case)
+Title: Websocket client for R
 Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Authors@R: c(person("rOpensci","Unconference17", role = c("aut","cre"), 
+                    email = "g9u1m6z9u2l7c5u1@ropensci.slack.com"),
+             person("Miles", "McBain", role = c("aut"), email = "miles.mcbain@gmail.com"),
+             person("Alicia", "Schep",role = c("aut"), email = "aschep@gmail.com"),
+             person("Bob", "Rudis",role = c("ctb")),
+             person("Henrik", "Bengtsson",role = c("ctb")),
+             person("Carl", "Ganz", role = c("aut")),
+             person("Joe", "Cheng", role = c("ctb")))
+Description: Basic websocket client for R.
 Depends:
     R (>= 3.3.3)
-License: What license is it under?
 Encoding: UTF-8
 LazyData: true
 LinkingTo: Rcpp
 Imports:
     Rcpp
-RoxygenNote: 5.0.1
+Suggests:
+    httpuv,
+    shiny,
+    jsonlite
+RoxygenNote: 6.0.1
 SystemRequirements: C++11
+License: AGPL
