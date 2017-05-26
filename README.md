@@ -5,20 +5,6 @@ Webrockets is an #unconf17 project that implements a basic websocket listener in
 # Example
 ![Blastoff!](https://raw.githubusercontent.com/ropenscilabs/webrockets/master/inst/media/example1.gif)
 
-# Usage
-library(shiny)
-library(ggplot2)
-library(jsonlite)
-
-con <- ws_connect("ws://localhost:5006/")
-
-# Define the UI
-ui <- fluidPage(
-    plotOutput('plot')
-)
-
-
-# Define the server code
 ```   
 library(shiny)
 library(ggplot2)
@@ -57,6 +43,7 @@ server <- function(input, output) {
 shinyApp(ui = ui, server = server)
 ```
 
+# Usage
 
 
 # TODO
