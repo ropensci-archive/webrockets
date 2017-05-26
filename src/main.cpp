@@ -20,7 +20,7 @@ void handle_message(const std::string & message) {
 
 //' Connect to websocket
 //'
-//' @param url ws URL
+//' @param url URL for websocket server
 //' @export
 // [[Rcpp::export]]
 SEXP ws_connect(std::string url) {
@@ -45,17 +45,17 @@ SEXP ws_connect(std::string url) {
 
 //' Consume one message
 //'
-//' @param ws_ptr pointer from \{code}\link{ws_connect}
-//' @param timeout
+//' @param ws_ptr pointer from \code{\link{ws_connect}}
+//' @param timeout time before timing out each time server is queried
 //' @export
-//' @return list of strings with each message
+//' @return string with message from server
+//' @export
 //' @examples
-//'
 //' \dontrun{
-//'     con <- ws_connect(ws://localhost:5006/") # Need to have websocket server
+//'     con <- ws_connect("ws://localhost:5006/") # Need to have websocket server
 //'     ws_poll(con, 5) # returns one message
 //' }
-//' @export
+//'
 // [[Rcpp::export]]
 std::string ws_poll(SEXP ws_ptr, int timeout=5) {
 
@@ -78,17 +78,19 @@ std::string ws_poll(SEXP ws_ptr, int timeout=5) {
 
 }
 
+//' ws_poll_list
+//'
 //' Consume n events
-//' @param ws_ptr pointer from \{code}\link{ws_connect}
+//' @param ws_ptr pointer from \code{\link{ws_connect}}
 //' @param eventlimit limit of events
 //' @return list of strings with each message
+//' @export
 //' @examples
 //'
 //' \dontrun{
-//'     con <- ws_connect(ws://localhost:5006/") # Need to have websocket server
+//'     con <- ws_connect("ws://localhost:5006/") # Need to have websocket server
 //'     ws_poll_list(con, 3) # returns 3 messages
 //' }
-//' @export
 // [[Rcpp::export]]
 std::vector<std::string> ws_poll_list(SEXP ws_ptr, unsigned int eventlimit){
     chromeWsPtr wsp = ((chromeWsPtr)R_ExternalPtrAddr(ws_ptr));
@@ -111,11 +113,9 @@ std::vector<std::string> ws_poll_list(SEXP ws_ptr, unsigned int eventlimit){
 
 //' ws_close
 //'
-//' Close a socket connection
+//' Close a socket connection (DOES NOT WORK PROPERLY)
 //'
-//' @param Chrome ws ptr object.
-//' @export
-// [[Rcpp::export]]
+//' @param ws_ptr websocket ptr object.
 void ws_close(SEXP ws_ptr){
     chromeWsPtr wsp = ((chromeWsPtr)R_ExternalPtrAddr(ws_ptr));
     wsp->ws->close();
@@ -128,20 +128,20 @@ void ws_close(SEXP ws_ptr){
 //'
 //' Consume one message within timeout
 //'
-//' @param ws_ptr pointer from \{code}\link{ws_connect}
+//' @param ws_ptr pointer from \code{\link{ws_connect}}
 //' @param timeout time in milliseconds before timing out, see details
 //' @details If timout is set to a negative number, the process should
 //' block until a message arrives. If set to 0, no blocking is performed --
 //' a message is returned if it is there.  If set to a positive value,
 //' the function will wait until there is a message or a timeout
 //' @return one message, if one occurs within timeout. otherwise, empty string
+//' @export
 //' @examples
 //'
 //' \dontrun{
-//'     con <- ws_connect(ws://localhost:5006/") # Need to have websocket server
+//'     con <- ws_connect("ws://localhost:5006/") # Need to have websocket server
 //'     ws_read_one(con, 5)
 //' }
-//' @export
 // [[Rcpp::export]]
 std::string ws_read_one(SEXP ws_ptr, int timeout=5) {
     msg = "";

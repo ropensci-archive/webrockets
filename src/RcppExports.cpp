@@ -40,16 +40,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// ws_close
-void ws_close(SEXP ws_ptr);
-RcppExport SEXP webrockets_ws_close(SEXP ws_ptrSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type ws_ptr(ws_ptrSEXP);
-    ws_close(ws_ptr);
-    return R_NilValue;
-END_RCPP
-}
 // ws_read_one
 std::string ws_read_one(SEXP ws_ptr, int timeout);
 RcppExport SEXP webrockets_ws_read_one(SEXP ws_ptrSEXP, SEXP timeoutSEXP) {

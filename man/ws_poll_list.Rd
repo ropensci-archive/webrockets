@@ -2,11 +2,13 @@
 % Please edit documentation in R/RcppExports.R
 \name{ws_poll_list}
 \alias{ws_poll_list}
-\title{Consume n events}
+\title{ws_poll_list}
 \usage{
 ws_poll_list(ws_ptr, eventlimit)
 }
 \arguments{
+\item{ws_ptr}{pointer from \code{\link{ws_connect}}}
+
 \item{eventlimit}{limit of events}
 }
 \value{
@@ -14,4 +16,11 @@ list of strings with each message
 }
 \description{
 Consume n events
+}
+\examples{
+
+\dontrun{
+    con <- ws_connect("ws://localhost:5006/") # Need to have websocket server
+    ws_poll_list(con, 3) # returns 3 messages
+}
 }

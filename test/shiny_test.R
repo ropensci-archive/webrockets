@@ -1,5 +1,6 @@
 library(shiny)
 library(ggplot2)
+library(jsonlite)
 
 con <- ws_connect("ws://localhost:5006/")
 

@@ -7,6 +7,8 @@
 ws_read_one(ws_ptr, timeout = 5L)
 }
 \arguments{
+\item{ws_ptr}{pointer from \code{\link{ws_connect}}}
+
 \item{timeout}{time in milliseconds before timing out, see details}
 }
 \value{
@@ -20,4 +22,11 @@ If timout is set to a negative number, the process should
 block until a message arrives. If set to 0, no blocking is performed --
 a message is returned if it is there.  If set to a positive value,
 the function will wait until there is a message or a timeout
+}
+\examples{
+
+\dontrun{
+    con <- ws_connect("ws://localhost:5006/") # Need to have websocket server
+    ws_read_one(con, 5)
+}
 }
