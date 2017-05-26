@@ -46,7 +46,7 @@ ws_poll_list <- function(ws_ptr, eventlimit) {
 #' Close a socket connection
 #'
 #' @param Chrome ws ptr object.
-#' @export
+#' Using this function leads to broken sockets on MacOS. Do not use.
 ws_close <- function(ws_ptr) {
     invisible(.Call('webrockets_ws_close', PACKAGE = 'webrockets', ws_ptr))
 }

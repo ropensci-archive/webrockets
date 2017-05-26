@@ -7,8 +7,10 @@
 ws_close(ws_ptr)
 }
 \arguments{
-\item{Chrome}{ws ptr object.}
+\item{Chrome}{ws ptr object.
+Using this function leads to broken sockets on MacOS. Do not use.}
 }
 \description{
 Close a socket connection
 }
+

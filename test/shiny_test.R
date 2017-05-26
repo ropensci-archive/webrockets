@@ -12,8 +12,6 @@ ui <- fluidPage(
 
 # Define the server code
 server <- function(input, output) {
-
-    cc <- webrockets::chrome_connect("ws://localhost:5006/")
     values <- reactiveValues(x = NULL, y = NULL)
 
     observeEvent(invalidateLater(100), {

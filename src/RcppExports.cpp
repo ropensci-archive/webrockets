@@ -62,3 +62,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+
+static const R_CallMethodDef CallEntries[] = {
+    {"webrockets_ws_connect", (DL_FUNC) &webrockets_ws_connect, 1},
+    {"webrockets_ws_poll", (DL_FUNC) &webrockets_ws_poll, 2},
+    {"webrockets_ws_poll_list", (DL_FUNC) &webrockets_ws_poll_list, 2},
+    {"webrockets_ws_close", (DL_FUNC) &webrockets_ws_close, 1},
+    {"webrockets_ws_read_one", (DL_FUNC) &webrockets_ws_read_one, 2},
+    {NULL, NULL, 0}
+};
+
+RcppExport void R_init_webrockets(DllInfo *dll) {
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
+}

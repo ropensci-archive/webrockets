@@ -114,7 +114,7 @@ std::vector<std::string> ws_poll_list(SEXP ws_ptr, unsigned int eventlimit){
 //' Close a socket connection
 //'
 //' @param Chrome ws ptr object.
-//' @export
+//' Using this function leads to broken sockets on MacOS. Do not use.
 // [[Rcpp::export]]
 void ws_close(SEXP ws_ptr){
     chromeWsPtr wsp = ((chromeWsPtr)R_ExternalPtrAddr(ws_ptr));
