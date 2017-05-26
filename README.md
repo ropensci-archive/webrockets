@@ -3,6 +3,8 @@
 Webrockets is an #unconf17 project that implements a basic websocket listener in R. The implementation draws heavily on @hrbmstr's wrapper of `easywsclient` in https://github.com/ropenscilabs/decapitated.
 
 # Example
+This example plots coordinate pairs streamed from a [server](https://github.com/ropenscilabs/webrockets/blob/master/test/random_coordintate_server.R) using the websocket protocol. Points are stored in a shiny `reactiveValues` object which cause shiny to trigger an update of the plot when new data is received.
+
 ![Blastoff!](https://raw.githubusercontent.com/ropenscilabs/webrockets/master/inst/media/example1.gif)
 
 ```   
@@ -43,9 +45,21 @@ server <- function(input, output) {
 shinyApp(ui = ui, server = server)
 ```
 
-# Usage
+# API
+
+## Opening a connection
+`con <- ws_connect(url = "ws://localhost:5006/")`
+
+## Checking for messages
+
+### Blocking
+`ws_poll(ws_ptr = con, timeout = 5)` will block for 5 milliseconds waiting for a message.
+
+## Non-blocking
+
+
 
 
 # TODO
 * Vignette
-
+* Automated tests
