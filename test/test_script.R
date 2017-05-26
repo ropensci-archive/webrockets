@@ -1,5 +1,3 @@
-#bokeh serve .python_test_server/circle_server.py --session-ids unsigned
-
 #create connection
 cc <- webrockets::chrome_connect("ws://localhost:5006/")
 
