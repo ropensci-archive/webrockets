@@ -4,18 +4,18 @@ using namespace Rcpp;
 #include "easywsclient.hpp"
 #include "ws.h"
 
-std::mutex mtx;
-std::condition_variable cv;
+//std::mutex mtx;
+//std::condition_variable cv;
 std::string msg;
 bool ready = false;
 
 void handle_message(const std::string & message) {
-  std::unique_lock<std::mutex> lock(mtx);
-  lock.unlock();
+  //std::unique_lock<std::mutex> lock(mtx);
+  //lock.unlock();
   msg = message;
   ready = true;
-  lock.lock();
-  cv.notify_one();
+  //lock.lock();
+  //cv.notify_one();
 }
 
 //' Connect to Chrome Remote
@@ -82,15 +82,38 @@ std::string ws_poll(SEXP ws_ptr, int timeout=5) {
 
   while (!ready) {
     std::cout << "." ;
-    wsp->ws->poll(5);
+    wsp->ws->poll(timeout);
     wsp->ws->dispatch(handle_message);
   }
 
   std::cout<<std::endl;
+  std::string out = msg;
+  msg = "";
+  ready = false;
 
-  return(msg);
+  return(out);
 
 }
+
+// [[Rcpp::export]]
+std::vector<std::string> ws_poll_list(SEXP ws_ptr, unsigned int eventlimit){
+    chromeWsPtr wsp = ((chromeWsPtr)R_ExternalPtrAddr(ws_ptr));
+
+    int nevents = 0;
+    std::vector<std::string> out;
+    while (nevents < eventlimit) {
+        Rcpp::Rcout << "nevents = " << nevents << std::endl;
+        wsp->ws->poll(-1);
+        wsp->ws->dispatch(handle_message);
+        nevents++;
+        out.push_back(msg);
+        msg = "";
+    }
+
+    std::cout<<std::endl;
+    return out;
+}
+
 
 //' Close a socket connection
 //'
