@@ -12,7 +12,6 @@ ui <- fluidPage(
 
 # Define the server code
 server <- function(input, output) {
-
     values <- reactiveValues(x = NULL, y = NULL)
 
     observeEvent(invalidateLater(100), {
