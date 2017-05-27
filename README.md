@@ -55,16 +55,16 @@ shinyApp(ui = ui, server = server)
 ### Blocking
 `ws_poll(ws_ptr = con, timeout = 5)` 
 
-## Blocking forever
+### Blocking forever
 `ws_receive(ws_ptr = con, timeout = -1)` should block till a message arrives.
 
-## Non-blocking
+### Non-blocking
 `ws_receive(ws_ptr = con, timeout = 0)` will get a message if there is one, return empty string if not.
 
-## Getting one message
+### Getting one message
 `ws_receive_one(ws_ptr = con, frequency = 20)` will get 1 message.
 
-## Getting N messages
+### Getting N messages
 `ws_receive_multiple(ws_ptr = con, nevents = 20)` will get 20 messages.
 
 
