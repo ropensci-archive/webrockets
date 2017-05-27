@@ -27,7 +27,7 @@ server <- function(input, output) {
 
     observeEvent(invalidateLater(100), {
 
-        new_response <- ws_read_one(con, 0)
+        new_response <- ws_receive(con, 0)
         if (new_response != ""){
             new_point <- fromJSON(new_response)
             values$x <- c(values$x, new_point$x)
@@ -52,14 +52,18 @@ shinyApp(ui = ui, server = server)
 
 ## Checking for messages
 
-### Blocking
-`ws_poll(ws_ptr = con, timeout = 5)` will block for 5 milliseconds waiting for a message.
+### Blocking for limited time
+`ws_receive(ws_ptr = con, timeout = 5)` will block  up to 5 milliseconds waiting for a message.
+
+## Blocking forever
+`ws_receive(ws_ptr = con, timeout = -1)` 
 
 ## Non-blocking
-
+`ws_receive(ws_ptr = con, timeout = 0)` 
 
 
 
 # TODO
 * Vignette
+* Functional close method for closing connection
 * Automated tests
