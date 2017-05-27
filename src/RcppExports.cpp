@@ -16,39 +16,39 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// ws_poll
-std::string ws_poll(SEXP ws_ptr, int timeout);
-RcppExport SEXP webrockets_ws_poll(SEXP ws_ptrSEXP, SEXP timeoutSEXP) {
+// ws_receive_one
+std::string ws_receive_one(SEXP ws_ptr, int frequency);
+RcppExport SEXP webrockets_ws_receive_one(SEXP ws_ptrSEXP, SEXP frequencySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type ws_ptr(ws_ptrSEXP);
-    Rcpp::traits::input_parameter< int >::type timeout(timeoutSEXP);
-    rcpp_result_gen = Rcpp::wrap(ws_poll(ws_ptr, timeout));
+    Rcpp::traits::input_parameter< int >::type frequency(frequencySEXP);
+    rcpp_result_gen = Rcpp::wrap(ws_receive_one(ws_ptr, frequency));
     return rcpp_result_gen;
 END_RCPP
 }
-// ws_poll_list
-std::vector<std::string> ws_poll_list(SEXP ws_ptr, unsigned int eventlimit);
-RcppExport SEXP webrockets_ws_poll_list(SEXP ws_ptrSEXP, SEXP eventlimitSEXP) {
+// ws_receive_multiple
+std::vector<std::string> ws_receive_multiple(SEXP ws_ptr, unsigned int eventlimit);
+RcppExport SEXP webrockets_ws_receive_multiple(SEXP ws_ptrSEXP, SEXP eventlimitSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type ws_ptr(ws_ptrSEXP);
     Rcpp::traits::input_parameter< unsigned int >::type eventlimit(eventlimitSEXP);
-    rcpp_result_gen = Rcpp::wrap(ws_poll_list(ws_ptr, eventlimit));
+    rcpp_result_gen = Rcpp::wrap(ws_receive_multiple(ws_ptr, eventlimit));
     return rcpp_result_gen;
 END_RCPP
 }
-// ws_read_one
-std::string ws_read_one(SEXP ws_ptr, int timeout);
-RcppExport SEXP webrockets_ws_read_one(SEXP ws_ptrSEXP, SEXP timeoutSEXP) {
+// ws_receive
+std::string ws_receive(SEXP ws_ptr, int timeout);
+RcppExport SEXP webrockets_ws_receive(SEXP ws_ptrSEXP, SEXP timeoutSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type ws_ptr(ws_ptrSEXP);
     Rcpp::traits::input_parameter< int >::type timeout(timeoutSEXP);
-    rcpp_result_gen = Rcpp::wrap(ws_read_one(ws_ptr, timeout));
+    rcpp_result_gen = Rcpp::wrap(ws_receive(ws_ptr, timeout));
     return rcpp_result_gen;
 END_RCPP
 }

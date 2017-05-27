@@ -43,21 +43,23 @@ SEXP ws_connect(std::string url) {
 };
 
 
-//' Consume one message
+//' ws_receive_one
+//'
+//' Query websocket until one message received
 //'
 //' @param ws_ptr pointer from \code{\link{ws_connect}}
-//' @param timeout time before timing out each time server is queried
+//' @param frequency time before timing out each time server is queried
 //' @export
 //' @return string with message from server
 //' @export
 //' @examples
 //' \dontrun{
 //'     con <- ws_connect("ws://localhost:5006/") # Need to have websocket server
-//'     ws_poll(con, 5) # returns one message
+//'     ws_receive_one(con, 5) # returns one message
 //' }
 //'
 // [[Rcpp::export]]
-std::string ws_poll(SEXP ws_ptr, int timeout=5) {
+std::string ws_receive_one(SEXP ws_ptr, int frequency = 5) {
 
   chromeWsPtr wsp = ((chromeWsPtr)R_ExternalPtrAddr(ws_ptr));
 
@@ -65,7 +67,7 @@ std::string ws_poll(SEXP ws_ptr, int timeout=5) {
 
   while (!ready) {
     std::cout << "." ;
-    wsp->ws->poll(timeout);
+    wsp->ws->poll(frequency);
     wsp->ws->dispatch(handle_message);
   }
 
@@ -78,7 +80,7 @@ std::string ws_poll(SEXP ws_ptr, int timeout=5) {
 
 }
 
-//' ws_poll_list
+//' ws_receive_multiple
 //'
 //' Consume n events
 //' @param ws_ptr pointer from \code{\link{ws_connect}}
@@ -89,10 +91,10 @@ std::string ws_poll(SEXP ws_ptr, int timeout=5) {
 //'
 //' \dontrun{
 //'     con <- ws_connect("ws://localhost:5006/") # Need to have websocket server
-//'     ws_poll_list(con, 3) # returns 3 messages
+//'     ws_receive_multiple(con, 3) # returns 3 messages
 //' }
 // [[Rcpp::export]]
-std::vector<std::string> ws_poll_list(SEXP ws_ptr, unsigned int eventlimit){
+std::vector<std::string> ws_receive_multiple(SEXP ws_ptr, unsigned int eventlimit){
     chromeWsPtr wsp = ((chromeWsPtr)R_ExternalPtrAddr(ws_ptr));
 
     int nevents = 1;
@@ -124,7 +126,7 @@ void ws_close(SEXP ws_ptr){
     //delete wsp;
 }
 
-//' ws_read_one
+//' ws_receive
 //'
 //' Consume one message within timeout
 //'
@@ -140,10 +142,10 @@ void ws_close(SEXP ws_ptr){
 //'
 //' \dontrun{
 //'     con <- ws_connect("ws://localhost:5006/") # Need to have websocket server
-//'     ws_read_one(con, 5)
+//'     ws_receive(con, 5)
 //' }
 // [[Rcpp::export]]
-std::string ws_read_one(SEXP ws_ptr, int timeout=5) {
+std::string ws_receive(SEXP ws_ptr, int timeout=5) {
     msg = "";
     chromeWsPtr wsp = ((chromeWsPtr)R_ExternalPtrAddr(ws_ptr));
     wsp->ws->poll(timeout);

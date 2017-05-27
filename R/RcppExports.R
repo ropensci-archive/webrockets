@@ -16,24 +16,26 @@ ws_connect <- function(url) {
     .Call('webrockets_ws_connect', PACKAGE = 'webrockets', url)
 }
 
-#' Consume one message
+#' ws_receive_one
+#'
+#' Query websocket until one message received
 #'
 #' @param ws_ptr pointer from \code{\link{ws_connect}}
-#' @param timeout time before timing out each time server is queried
+#' @param frequency time before timing out each time server is queried
 #' @export
 #' @return string with message from server
 #' @export
 #' @examples
 #' \dontrun{
 #'     con <- ws_connect("ws://localhost:5006/") # Need to have websocket server
-#'     ws_poll(con, 5) # returns one message
+#'     ws_receive_one(con, 5) # returns one message
 #' }
 #'
-ws_poll <- function(ws_ptr, timeout = 5L) {
-    .Call('webrockets_ws_poll', PACKAGE = 'webrockets', ws_ptr, timeout)
+ws_receive_one <- function(ws_ptr, frequency = 5L) {
+    .Call('webrockets_ws_receive_one', PACKAGE = 'webrockets', ws_ptr, frequency)
 }
 
-#' ws_poll_list
+#' ws_receive_multiple
 #'
 #' Consume n events
 #' @param ws_ptr pointer from \code{\link{ws_connect}}
@@ -44,13 +46,13 @@ ws_poll <- function(ws_ptr, timeout = 5L) {
 #'
 #' \dontrun{
 #'     con <- ws_connect("ws://localhost:5006/") # Need to have websocket server
-#'     ws_poll_list(con, 3) # returns 3 messages
+#'     ws_receive_multiple(con, 3) # returns 3 messages
 #' }
-ws_poll_list <- function(ws_ptr, eventlimit) {
-    .Call('webrockets_ws_poll_list', PACKAGE = 'webrockets', ws_ptr, eventlimit)
+ws_receive_multiple <- function(ws_ptr, eventlimit) {
+    .Call('webrockets_ws_receive_multiple', PACKAGE = 'webrockets', ws_ptr, eventlimit)
 }
 
-#' ws_read_one
+#' ws_receive
 #'
 #' Consume one message within timeout
 #'
@@ -66,9 +68,9 @@ ws_poll_list <- function(ws_ptr, eventlimit) {
 #'
 #' \dontrun{
 #'     con <- ws_connect("ws://localhost:5006/") # Need to have websocket server
-#'     ws_read_one(con, 5)
+#'     ws_receive(con, 5)
 #' }
-ws_read_one <- function(ws_ptr, timeout = 5L) {
-    .Call('webrockets_ws_read_one', PACKAGE = 'webrockets', ws_ptr, timeout)
+ws_receive <- function(ws_ptr, timeout = 5L) {
+    .Call('webrockets_ws_receive', PACKAGE = 'webrockets', ws_ptr, timeout)
 }
 

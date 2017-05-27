@@ -16,7 +16,7 @@ server <- function(input, output) {
 
     observeEvent(invalidateLater(100), {
 
-        new_response <- ws_read_one(con, 0)
+        new_response <- ws_receive(con, 0)
         if (new_response != ""){
             new_point <- fromJSON(new_response)
             values$x <- c(values$x, new_point$x)

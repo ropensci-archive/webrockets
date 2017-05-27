@@ -12,4 +12,3 @@ ws_connect(url)
 \description{
 Connect to websocket
 }
-
