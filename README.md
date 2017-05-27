@@ -53,7 +53,7 @@ shinyApp(ui = ui, server = server)
 ## Checking for messages
 
 ### Blocking
-`ws_poll(ws_ptr = con, timeout = 5)` 
+`ws_receive(ws_ptr = con, timeout = 5)` 
 
 ### Blocking forever
 `ws_receive(ws_ptr = con, timeout = -1)` should block till a message arrives.
