@@ -56,11 +56,16 @@ shinyApp(ui = ui, server = server)
 `ws_receive(ws_ptr = con, timeout = 5)` will block  up to 5 milliseconds waiting for a message.
 
 ## Blocking forever
-`ws_receive(ws_ptr = con, timeout = -1)` 
+`ws_receive(ws_ptr = con, timeout = -1)` should block till a message arrives.
 
 ## Non-blocking
-`ws_receive(ws_ptr = con, timeout = 0)` 
+`ws_receive(ws_ptr = con, timeout = 0)` will get a message if there is one, return empty string if not.
 
+## Getting one message
+`ws_receive_one(ws_ptr = con, frequency = 20)` will get 1 message.
+
+## Getting N messages
+`ws_receive_multiple(ws_ptr = con, nevents = 20)` will get 20 messages.
 
 
 # TODO
