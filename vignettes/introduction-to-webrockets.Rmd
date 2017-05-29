@@ -1,0 +1,49 @@
+---
+title: "Introduction to Webrockets"
+author: "Miles McBain"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Webrockets
+
+`webrockets` provides a simple API for establishing websocket connections to streaming data sources. Common sources of streaming data are Internet of Things (IOT) devices, Virtual Reality/Augmented Reality devices and sessions, and modern web applications.
+
+# Underlying Implementation
+
+The underlying C++ implementation wrapped by `webrockets` is the `[easywsclient](https://github.com/dhbaird/easywsclient)`. This implementation was chosen because it is minimial, compiles without additional config on Windows, MacOS and Linux and requires distribution of only two files.
+
+# Basic Operation
+The basic pattern usage for `webrockets` is:
+
+1. Open a connection and return a pointer to it using `ws_connect(url = "ws://localhost:5006/")`
+2. Receive messages from the connection using either:
+
+    * `ws_receive(ws_ptr = con, timeout = 5)` to wait for 5 milliseconds attempting to receive a message
+    * `ws_receive_one(ws_ptr = con, frequency = 5)` to wait forever until 1 message arrives, checking every 5 milliseconds
+
+Recieving one message is probably not very useful. Most likely your program will
+want to use the recieve function in some kind of loop to do something with the data that you recieve each time it arrives.
+
+An obvious applicaiton is incorporating it into a plot:
+
+```{r}
+# Make plot
+library(ggplot2)
+p <- ggplot()
+end_time <- Sys.time() + 60 #listening window of one minute.
+
+while (Sys.time() < end_time){
+    new_point <- fromJSON(ws_receive(cc, 5))
+    p <- p + annotate(geom = "point", x = new_point$x, y = new_point$y)
+    print(new_point)
+    print(p)
+}
+```
+
+
+# How to serve some test data

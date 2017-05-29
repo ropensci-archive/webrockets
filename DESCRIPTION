@@ -20,7 +20,12 @@ Imports:
 Suggests:
     httpuv,
     shiny,
-    jsonlite
+    jsonlite,
+    knitr,
+    rmarkdown
 RoxygenNote: 6.0.1
 SystemRequirements: C++11
 License: AGPL
+URL: https://github.com/ropenscilabs/webrockets
+BugReports: https://github.com/ropenscilabs/webrockets
+VignetteBuilder: knitr
