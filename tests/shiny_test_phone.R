@@ -6,9 +6,12 @@ library(magrittr)
 library(tidyr)
 
 #con <- ws_connect("ws://localhost:5006/")
-
 # Define the UI
 ui <- fluidPage(
+    
+    tags$style(type="text/css",
+               ".recalculating {opacity: 1.0;}"),
+    #style change stops the plot from "flashing" on slower PCs while data is updated.
     plotOutput('plot')
 )
 
@@ -17,7 +20,7 @@ ui <- fluidPage(
 server <- function(input, output) {
     values <- reactiveValues(x = NULL, y = NULL, z = NULL, time = NULL)
 
-    observeEvent(invalidateLater(100), {
+    observeEvent(invalidateLater(50), {
 
         new_response <- ws_receive(con, 0)
         if (new_response != ""){
