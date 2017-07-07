@@ -156,3 +156,13 @@ std::string ws_receive(SEXP ws_ptr, int timeout=5) {
 
 }
 
+//' ws_send
+//'
+// [[Rcpp::export]]
+void ws_send(SEXP ws_ptr, std::string &message){
+    chromeWsPtr wsp = ((chromeWsPtr)R_ExternalPtrAddr(ws_ptr));
+    wsp->ws->send(message);
+    wsp->ws->poll(0); //send the message
+    //What if we got a message?
+}
+

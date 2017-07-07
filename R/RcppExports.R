@@ -74,3 +74,9 @@ ws_receive <- function(ws_ptr, timeout = 5L) {
     .Call('webrockets_ws_receive', PACKAGE = 'webrockets', ws_ptr, timeout)
 }
 
+#' ws_send
+#'
+ws_send <- function(ws_ptr, message) {
+    invisible(.Call('webrockets_ws_send', PACKAGE = 'webrockets', ws_ptr, message))
+}
+

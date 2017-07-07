@@ -52,3 +52,28 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// ws_send
+void ws_send(SEXP ws_ptr, std::string& message);
+RcppExport SEXP webrockets_ws_send(SEXP ws_ptrSEXP, SEXP messageSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type ws_ptr(ws_ptrSEXP);
+    Rcpp::traits::input_parameter< std::string& >::type message(messageSEXP);
+    ws_send(ws_ptr, message);
+    return R_NilValue;
+END_RCPP
+}
+
+static const R_CallMethodDef CallEntries[] = {
+    {"webrockets_ws_connect", (DL_FUNC) &webrockets_ws_connect, 1},
+    {"webrockets_ws_receive_one", (DL_FUNC) &webrockets_ws_receive_one, 2},
+    {"webrockets_ws_receive_multiple", (DL_FUNC) &webrockets_ws_receive_multiple, 2},
+    {"webrockets_ws_receive", (DL_FUNC) &webrockets_ws_receive, 2},
+    {"webrockets_ws_send", (DL_FUNC) &webrockets_ws_send, 2},
+    {NULL, NULL, 0}
+};
+
+RcppExport void R_init_webrockets(DllInfo *dll) {
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
+}
