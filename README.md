@@ -1,3 +1,7 @@
+[![lifecycle](https://img.shields.io/badge/lifecycle-archived-red.svg)](https://www.tidyverse.org/lifecycle/#archived)
+
+This project is archived. See https://github.com/rstudio/websocket for websocket support in R.
+
 # webrockets
 
 Webrockets is an #unconf17 project that implements a basic websocket listener in R. The implementation draws heavily on @hrbmstr's wrapper of `easywsclient` in https://github.com/ropenscilabs/decapitated.
